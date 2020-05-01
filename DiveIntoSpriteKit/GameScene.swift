@@ -10,6 +10,17 @@ import SpriteKit
 
 @objcMembers
 class GameScene: SKScene {
+    
+    func createEnemy () {
+              let sprite = SKSpriteNode(imageNamed: "asteroid")
+              sprite.position = CGPoint(x: 1200, y: Int.random(in: -350...350))
+              sprite.name = "enemy"
+              sprite.zPosition = 1
+              addChild(sprite)
+              sprite.physicsBody = SKPhysicsBody(texture: sprite.texture!, size: sprite.size)
+              sprite.physicsBody?.velocity = CGVector(dx: -500, dy: 0)
+              sprite.physicsBody?.linearDamping = 0
+    }
     let player = SKSpriteNode(imageNamed: "player-rocket.png")
     var touchingPlayer = false
     override func didMove(to view: SKView) {
@@ -24,8 +35,12 @@ class GameScene: SKScene {
             player.position.x = -400
             player.zPosition = 1
             addChild(player)
-         }
-}
+        }
+       var gameTimer: Timer?
+           
+           gameTimer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
+           
+    }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // this method is called when the user touches the screen
@@ -52,6 +67,8 @@ class GameScene: SKScene {
    
     override func update(_ currentTime: TimeInterval) {
         // this method is called before each frame is rendered
-    }
+    
 }
+   
 
+}
